@@ -6,7 +6,7 @@
 ;    By: tmaze <tmaze@student.42.fr>                +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
 ;    Created: 2018/07/09 18:59:05 by tmaze             #+#    #+#              ;
-;    Updated: 2019/03/01 11:41:00 by tmaze            ###   ########.fr        ;
+;    Updated: 2019/05/08 10:15:23 by tmaze            ###   ########.fr        ;
 ;                                                                              ;
 ;******************************************************************************;
 
@@ -58,6 +58,10 @@ There are two things you can do about this warning:
 (global-set-key (kbd "C-x g") 'magit-status)
 
 (global-git-commit-mode)
+(global-undo-tree-mode)
+(global-column-enforce-mode)
 
 (line-number-mode 1)
 (column-number-mode 1)
+
+(setenv "ESHELL" (expand-file-name "~/.emacs.d/eshell"))
