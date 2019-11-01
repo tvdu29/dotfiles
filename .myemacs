@@ -6,7 +6,7 @@
 ;    By: tmaze <tmaze@student.42.fr>                +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
 ;    Created: 2018/07/09 18:59:05 by tmaze             #+#    #+#              ;
-;    Updated: 2019/11/01 17:32:23 by tmaze            ###   ########.fr        ;
+;    Updated: 2019/11/01 19:19:08 by tmaze            ###   ########.fr        ;
 ;                                                                              ;
 ;******************************************************************************;
 
@@ -32,11 +32,14 @@ There are two things you can do about this warning:
 
 (setq package-initialize-at-startup nil)
 
-(defvar tmaze/packages '(ccls
+(defvar tmaze/packages '(lsp-treemacs
+						 flycheck
+						 ccls
 						 rust-mode
 						 company
 						 use-package
 						 lsp-mode
+						 lsp-ui
 						 company-lsp
 						 column-enforce-mode
 						 magit
@@ -79,20 +82,23 @@ There are two things you can do about this warning:
     (setq rust-format-on-save t))
 (use-package lsp-mode
     :init
-    (add-hook 'prog-mode-hook 'lsp-mode)
-    :config
-    (use-package lsp-flycheck
-        :ensure f ; comes with lsp-mode
-        :after flycheck))
+    (add-hook 'prog-mode-hook 'lsp-mode))
+
 (use-package lsp-rust
-    :after lsp-mode)
+  :after lsp-mode)
+
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp))))
 
-(use-package flymake-cursor
-  :load-path "~/.emacs.d/lisp/emacs-flymake-cursor" ;; cloned repo path
-  :config
-  (flymake-cursor-mode))
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode))
+
+(use-package flycheck
+  :hook ((rust-mode c-mode c++-mode objc-mode cuda-mode) .
+		 flycheck-mode))
+
+(use-package lsp-treemacs
+  :commands lsp-treemacs-errors-list)
 
 (setenv "ESHELL" (expand-file-name "~/.emacs.d/eshell"))
