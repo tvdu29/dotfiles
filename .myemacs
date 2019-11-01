@@ -6,7 +6,7 @@
 ;    By: tmaze <tmaze@student.42.fr>                +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
 ;    Created: 2018/07/09 18:59:05 by tmaze             #+#    #+#              ;
-;    Updated: 2019/05/08 10:15:23 by tmaze            ###   ########.fr        ;
+;    Updated: 2019/11/01 17:32:23 by tmaze            ###   ########.fr        ;
 ;                                                                              ;
 ;******************************************************************************;
 
@@ -32,7 +32,13 @@ There are two things you can do about this warning:
 
 (setq package-initialize-at-startup nil)
 
-(defvar tmaze/packages '(evil
+(defvar tmaze/packages '(ccls
+						 rust-mode
+						 company
+						 use-package
+						 lsp-mode
+						 company-lsp
+						 column-enforce-mode
 						 magit
 						 treemacs
 						 treemacs-magit
@@ -56,12 +62,37 @@ There are two things you can do about this warning:
 (load-theme 'dakrone t)
 
 (global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x t") 'treemacs)
+
+(menu-bar-mode -1)
+(xterm-mouse-mode 1)
 
 (global-git-commit-mode)
 (global-undo-tree-mode)
-(global-column-enforce-mode)
 
 (line-number-mode 1)
 (column-number-mode 1)
+
+(use-package rust-mode
+    :mode "\\.rs\\'"
+    :init
+    (setq rust-format-on-save t))
+(use-package lsp-mode
+    :init
+    (add-hook 'prog-mode-hook 'lsp-mode)
+    :config
+    (use-package lsp-flycheck
+        :ensure f ; comes with lsp-mode
+        :after flycheck))
+(use-package lsp-rust
+    :after lsp-mode)
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp))))
+
+(use-package flymake-cursor
+  :load-path "~/.emacs.d/lisp/emacs-flymake-cursor" ;; cloned repo path
+  :config
+  (flymake-cursor-mode))
 
 (setenv "ESHELL" (expand-file-name "~/.emacs.d/eshell"))
