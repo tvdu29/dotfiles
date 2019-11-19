@@ -6,7 +6,7 @@
 ;    By: tmaze <tmaze@student.42.fr>                +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
 ;    Created: 2018/07/09 18:59:05 by tmaze             #+#    #+#              ;
-;    Updated: 2019/11/01 19:19:08 by tmaze            ###   ########.fr        ;
+;    Updated: 2019/11/05 10:45:00 by tmaze            ###   ########.fr        ;
 ;                                                                              ;
 ;******************************************************************************;
 
@@ -80,12 +80,11 @@ There are two things you can do about this warning:
     :mode "\\.rs\\'"
     :init
     (setq rust-format-on-save t))
+
 (use-package lsp-mode
     :init
-    (add-hook 'prog-mode-hook 'lsp-mode))
-
-(use-package lsp-rust
-  :after lsp-mode)
+    (add-hook 'prog-mode-hook 'lsp-mode)
+	:hook (rust-mode . (lambda () (lsp))))
 
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
@@ -100,7 +99,10 @@ There are two things you can do about this warning:
 
 (use-package lsp-treemacs
   :commands lsp-treemacs-errors-list)
-  
+
+(use-package cargo
+  :hook (rust-mode . (lambda () (cargo-minor-mode))))
+
 (setq lsp-prefer-flymake nil)
 
 (setenv "ESHELL" (expand-file-name "~/.emacs.d/eshell"))
