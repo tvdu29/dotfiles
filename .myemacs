@@ -6,7 +6,7 @@
 ;    By: tmaze <tmaze@student.42.fr>                +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
 ;    Created: 2018/07/09 18:59:05 by tmaze             #+#    #+#              ;
-;    Updated: 2019/11/05 10:45:00 by tmaze            ###   ########.fr        ;
+;    Updated: 2020/01/13 10:25:22 by tmaze            ###   ########.fr        ;
 ;                                                                              ;
 ;******************************************************************************;
 
@@ -32,7 +32,8 @@ There are two things you can do about this warning:
 
 (setq package-initialize-at-startup nil)
 
-(defvar tmaze/packages '(lsp-treemacs
+(defvar tmaze/packages '(vterm
+						 lsp-treemacs
 						 flycheck
 						 ccls
 						 rust-mode
@@ -63,6 +64,8 @@ There are two things you can do about this warning:
       (package-install pkg))))
 
 (load-theme 'dakrone t)
+
+(setq exec-path (append exec-path '(".:/Users/tmaze/.cargo/bin:/Library/TeX/texbin/:/Library/Frameworks/Python.framework/Versions/3.7/bin")))
 
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x t") 'treemacs)
