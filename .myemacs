@@ -6,7 +6,7 @@
 ;    By: tmaze <tmaze@student.42.fr>                +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
 ;    Created: 2018/07/09 18:59:05 by tmaze             #+#    #+#              ;
-;    Updated: 2020/01/13 10:25:22 by tmaze            ###   ########.fr        ;
+;    Updated: 2020/01/27 10:36:45 by tmaze            ###   ########.fr        ;
 ;                                                                              ;
 ;******************************************************************************;
 
@@ -48,6 +48,7 @@ There are two things you can do about this warning:
 						 treemacs-magit
 						 jinja2-mode
 						 ox-twbs
+						 exec-path-from-shell
 						 dakrone-theme)
   "Default packages")
 
@@ -65,12 +66,14 @@ There are two things you can do about this warning:
 
 (load-theme 'dakrone t)
 
-(setq exec-path (append exec-path '(".:/Users/tmaze/.cargo/bin:/Library/TeX/texbin/:/Library/Frameworks/Python.framework/Versions/3.7/bin")))
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "MAIL"))
 
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x t") 'treemacs)
 
-(menu-bar-mode -1)
+(menu-bar-mode 0)
 (xterm-mouse-mode 1)
 
 (global-git-commit-mode)
@@ -87,7 +90,10 @@ There are two things you can do about this warning:
 (use-package lsp-mode
     :init
     (add-hook 'prog-mode-hook 'lsp-mode)
-	:hook (rust-mode . (lambda () (lsp))))
+	:hook
+	(rust-mode . (lambda () (lsp)))
+	(python-mode . lsp)
+	)
 
 (use-package ccls
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
@@ -100,6 +106,10 @@ There are two things you can do about this warning:
   :hook ((rust-mode c-mode c++-mode objc-mode cuda-mode) .
 		 flycheck-mode))
 
+(use-package company-lsp
+  :config
+  (push 'company-lsp company-backends))
+
 (use-package lsp-treemacs
   :commands lsp-treemacs-errors-list)
 
@@ -108,4 +118,3 @@ There are two things you can do about this warning:
 
 (setq lsp-prefer-flymake nil)
 
-(setenv "ESHELL" (expand-file-name "~/.emacs.d/eshell"))
