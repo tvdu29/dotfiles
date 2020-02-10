@@ -6,7 +6,7 @@
 ;    by: thor <thor@42.fr>                           +#+  +:+       +#+         ;
 ;                                                  +#+#+#+#+#+   +#+            ;
 ;    Created: 2013/06/18 14:01:14 by thor               #+#    #+#              ;
-;    Updated: 2019/10/28 09:01:53 by tmaze            ###   ########.fr        ;
+;    Updated: 2020/01/27 10:48:04 by tmaze            ###   ########.fr        ;
 ;                                                                               ;
 ;*******************************************************************************;
 
@@ -20,10 +20,10 @@
 (setq config_files "/usr/share/emacs/site-lisp/")
 (setq load-path (append (list nil config_files) load-path))
 
-(load "~/.emacs.d/list.el")
-(load "~/.emacs.d/string.el")
-(load "~/.emacs.d/comments.el")
-(load "~/.emacs.d/header.el")
+;; (load "~/.emacs.d/list.el")
+;; (load "~/.emacs.d/string.el")
+;; (load "~/.emacs.d/comments.el")
+;; (load "~/.emacs.d/header.el")
 
 (autoload 'php-mode "php-mode" "Major mode for editing PHP code" t)
 (add-to-list 'auto-mode-alist '("\\.php[34]?\\'\\|\\.phtml\\'" . php-mode))
@@ -46,7 +46,7 @@
 (if (file-exists-p "~/.myemacs") (load-file "~/.myemacs"))
 
 
-;*******************************************************************************;
+;;*******************************************************************************;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -55,10 +55,13 @@
  '(gud-gdb-command-name "gdb --annotate=1")
  '(large-file-warning-threshold nil)
  '(package-selected-packages
-   '(dockerfile-mode ccls yasnippet ox-reveal web-mode json-mode docker-compose-mode column-enforce-mode treemacs-magit ox-twbs evil dakrone-theme)))
+   '(virtualenv exec-path-from-shell lsp-python-ms restart-emacs vterm dockerfile-mode ccls yasnippet ox-reveal web-mode json-mode docker-compose-mode column-enforce-mode treemacs-magit ox-twbs evil dakrone-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(setenv "PATH" (concat (getenv "PATH") ":/Users/tmaze/.cargo/bin:/usr/local/bin"))
+(setq exec-path (append exec-path '("/Users/tmaze/.cargo/bin" "/usr/local/bin")))
