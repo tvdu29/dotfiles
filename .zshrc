@@ -94,18 +94,37 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export MAIL=tmaze@student.42.fr
+alias resource="source ~/.zshrc"
 
-alias clean='find . \( -name "#*#" -or -name "*~" \) -print -delete'
-alias resource='source $HOME/.zshrc'
-alias norm-err='norminette | grep -B 1 "Error"'
-alias emacs-26.1='~/.brew/bin/emacs'
-alias leaks-loop='~/leaks-loop.sh'
+if [ "$(command -v exa)" ]; then
+        unalias -m 'll'
+        unalias -m 'l'
+        unalias -m 'la'
+        unalias -m 'ls'
+        alias ls='exa -G  --color auto --icons -a -s type'
+        alias ll='exa -l --color always --icons -a -s type'
+fi
 
+if [ "$(command -v bat)" ]; then
+        unalias -m 'cat'
+        alias cat='bat -pp'
+fi
 
-# Load Homebrew config script
-source $HOME/.brewconfig.zsh
-export VAGRANT_HOME=/Volumes/Storage/goinfre/tmaze/vagrant
+if [ -d ~/bin ]; then
+  PATH=$PATH:~/bin
+fi
 
-# Load goto
-source $HOME/gotoFonction/gotoFct.sh
+if [ -d ~/.local/bin ]; then
+  PATH=$PATH:~/.local/bin
+fi
+
+source ~/Documents/gotoFonction/gotoFct.sh
+
+. "$HOME/.cargo/env"
+
+export PATH=$PATH:/usr/local/go/bin
+
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+eval "$(zoxide init --cmd cd zsh)"
